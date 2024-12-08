@@ -72,6 +72,7 @@ class MovieViewModel @Inject constructor(
         }
     }
 
+//     Search Movie functionality Implementation
     fun searchMovies(query: String) {
         Log.d("Query is ",query)
         currentSearchQuery = query
@@ -83,6 +84,7 @@ class MovieViewModel @Inject constructor(
         searchMoviesNextPage(query)
     }
 
+//    Pagination to search movie on next gap
     fun searchMoviesNextPage(query: String) {
         if (_uiState.value.isLoading || !_uiState.value.canLoadMore) return
 

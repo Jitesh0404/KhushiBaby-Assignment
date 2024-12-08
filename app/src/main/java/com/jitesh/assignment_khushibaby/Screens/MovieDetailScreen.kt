@@ -32,6 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.jitesh.assignment_khushibaby.ViewModel.MovieViewModel
 
+// Individual Movie Screen
 @Composable
 fun MovieDetailScreen(
     movieId: Int,

@@ -30,6 +30,7 @@ object AppModule {
             .build()
     }
 
+//    Retrofit Instance
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
@@ -46,6 +47,7 @@ object AppModule {
         return retrofit.create(MovieApiService::class.java)
     }
 
+//    Room database instance
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): MovieDatabase {

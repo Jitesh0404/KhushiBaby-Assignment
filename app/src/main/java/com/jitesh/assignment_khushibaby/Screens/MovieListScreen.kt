@@ -1,6 +1,5 @@
 package com.jitesh.assignment_khushibaby.Screens
 
-import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -124,7 +123,7 @@ fun MovieListScreen(
         }
     }
 }
-
+// Search Bar
 @Composable
 fun SearchBar(
     query: String,
@@ -142,6 +141,7 @@ fun SearchBar(
     )
 }
 
+// Imp of Individual movie Card
 @Composable
 fun MovieItem(
     movie: Movie,
@@ -220,6 +220,7 @@ fun MovieItem(
     }
 }
 
+// Error UI
 @Composable
 fun ErrorMessage(message: String) {
     Box(

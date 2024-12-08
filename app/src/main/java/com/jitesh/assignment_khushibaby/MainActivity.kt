@@ -31,6 +31,7 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier.fillMaxSize().padding(innerPadding),
                                 color = MaterialTheme.colorScheme.background
                             ) {
+//                                Stack Navigation
                                 MovieNavigation()
                             }
                         }

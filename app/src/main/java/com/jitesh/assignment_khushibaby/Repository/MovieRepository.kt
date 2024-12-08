@@ -5,6 +5,7 @@ import com.jitesh.assignment_khushibaby.data.Movie
 import com.jitesh.assignment_khushibaby.data.MovieResponse
 import javax.inject.Inject
 
+// Endpoints functions
 class MovieRepository @Inject constructor(
     private val apiService: MovieApiService
 ) {

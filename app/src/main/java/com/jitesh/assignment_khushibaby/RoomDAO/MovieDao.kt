@@ -8,6 +8,7 @@ import androidx.room.Query
 import com.jitesh.assignment_khushibaby.Entity.MovieEntity
 import kotlinx.coroutines.flow.Flow
 
+// Room database crud Operations
 @Dao
 interface MovieDao {
     @Query("SELECT * FROM movies")

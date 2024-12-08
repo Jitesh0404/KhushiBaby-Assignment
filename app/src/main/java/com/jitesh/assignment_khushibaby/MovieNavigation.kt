@@ -9,6 +9,7 @@ import androidx.navigation.navArgument
 import com.jitesh.assignment_khushibaby.Screens.MovieDetailScreen
 import com.jitesh.assignment_khushibaby.Screens.MovieListScreen
 
+// Navigation component to handle navigation in app
 @Composable
 fun MovieNavigation() {
     val navController = rememberNavController()
