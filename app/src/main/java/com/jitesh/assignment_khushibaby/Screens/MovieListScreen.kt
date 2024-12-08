@@ -1,5 +1,6 @@
 package com.jitesh.assignment_khushibaby.Screens
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,12 +15,18 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.jitesh.assignment_khushibaby.Entity.MovieEntity
+import com.jitesh.assignment_khushibaby.Module.AppModule
 import com.jitesh.assignment_khushibaby.ViewModel.MovieViewModel
 import com.jitesh.assignment_khushibaby.data.Movie
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
+import kotlin.math.log
 
 @Composable
 fun MovieListScreen(
@@ -138,8 +145,33 @@ fun SearchBar(
 @Composable
 fun MovieItem(
     movie: Movie,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    viewModel: MovieViewModel = hiltViewModel()
 ) {
+    val movieDao = AppModule.provideDatabase(context = LocalContext.current).movieDao();
+    val coroutineScope = rememberCoroutineScope();
+    val isFavourite = remember { mutableStateOf(false)}
+    suspend fun addToFavourite(){
+        if(isFavourite.value){
+            movieDao.deleteMovie(movie = MovieEntity(movie.id,movie.title,movie.overview,movie.poster_path,movie.release_date,movie.vote_average,movie.adult,false));
+        }else{
+            movieDao.insertMovie(movie = MovieEntity(movie.id,movie.title,movie.overview,movie.poster_path,movie.release_date,movie.vote_average,movie.adult,true))
+        }
+        viewModel.loadMovies();
+    }
+    suspend fun isMovieFavourite() : Boolean{
+        val movies : Flow<List<MovieEntity>> = movieDao.getAllMovies();
+        movies.collect { movieList ->
+            isFavourite.value = movieList.any { it.id == movie.id }
+            Log.d("IsMovieFavourite ", isFavourite.value.toString())
+
+        }
+        return isFavourite.value;
+    }
+
+    LaunchedEffect(Unit) {
+        isMovieFavourite();
+    }
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -156,7 +188,6 @@ fun MovieItem(
                     .size(120.dp)
                     .clip(RoundedCornerShape(4.dp))
             )
-
             Column(
                 modifier = Modifier
                     .padding(start = 8.dp)
@@ -177,6 +208,13 @@ fun MovieItem(
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis
                 )
+                Button(modifier = Modifier.align(alignment = Alignment.End), onClick={
+                    coroutineScope.launch {
+                        addToFavourite()
+                    }
+                }) {
+                    Text(if(isFavourite.value) "Remove Favourite" else "Add Favourite", style = MaterialTheme.typography.titleSmall)
+                }
             }
         }
     }
